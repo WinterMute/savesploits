@@ -97,12 +97,14 @@ _start:
 
 	add		r11, r12, #0x1a0
 	
+
 	ldrh	r0,[r11,#0x204-0x1a0]
 	and		r0,r0,#~(1<<11)
 	strh	r0,[r11,#0x204-0x1a0]
 
 	ldr		r0, eepromselect
 	strh	r0,[r11]
+
 
 	mov		r0,#03
 	strb	r0,[r11,#0x02]
@@ -116,7 +118,7 @@ _start:
 	strb	r0,[r11,#0x02]
 	bl		eepromwait
 
-	mov		r1,#0x02200000
+	mov		r1,#0x02300000
 	add		r2,r1,#0x2000
 
 readeeprom:
@@ -131,11 +133,12 @@ readeeprom:
 
 	mov		r0,#0x40
 	strh	r0,[r11]
-	
+
+
 	adr		r0,stage2
 	adr		r1,_start
 	sub		r0,r0,r1
-	add		r0,r0,#0x2200000
+	add		r0,#0x02300000
 	bx		r0
 
 eepromwait:
@@ -160,7 +163,7 @@ eepromselect:
 	.word	0xA240
 
 stage2:
-	mov		r1, #0xf800
+	mov		r1, #0xf80
 	str		r1, [r4]
 	str		r1, [r4,#0x400]		@ engine B palette
 
