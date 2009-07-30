@@ -1,5 +1,13 @@
 export	PATH	:=	$(DEVKITARM)/bin:$(PATH)
 
+export	CC		:=	gcc
+
+UNAME	:=	$(shell uname -s)
+
+ifneq (,$(findstring MINGW,$(UNAME)))
+	EXEEXT		:=	.exe
+endif
+
 COUNTRY	:=	USA
 
 ifeq ($(strip $(COUNTRY)),USA)
