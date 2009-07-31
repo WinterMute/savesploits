@@ -27,7 +27,7 @@
 	.global	_start
 
 _start:
-	.word	0x800354
+	.word	CODE
 	.hword	1
 	.hword	0x0203
 	
@@ -42,7 +42,7 @@ _start:
 	
 	.space	(_start + 0x0f38) - .
 
-	.word	0x800354
+	.word	CODE
 	.hword	2
 	.hword	0x0202
 	
