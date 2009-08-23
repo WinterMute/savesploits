@@ -55,7 +55,7 @@ _start:
 	mov		r2, #0x1000
 	add		r3, r2, r12
 	strh	r1, [r3, #0x6c]
-	
+
 	add		r2, r2, r12
 	mov		r0, r12
 	mov		r3, #0x58
@@ -84,7 +84,7 @@ _start:
 
 	mov		r4, #0x05000000		@ engine A palette
 
-	mov		r1, #0x7f
+	mov		r1, #0x1f
 	str		r1, [r4]
 	str		r1, [r4,#0x400]		@ engine B palette
 
@@ -96,7 +96,6 @@ _start:
 	bl		memset
 
 	add		r11, r12, #0x1a0
-	
 
 	ldrh	r0,[r11,#0x204-0x1a0]
 	and		r0,r0,#~(1<<11)
@@ -104,7 +103,6 @@ _start:
 
 	ldr		r0, eepromselect
 	strh	r0,[r11]
-
 
 	mov		r0,#03
 	strb	r0,[r11,#0x02]
@@ -160,17 +158,18 @@ dispcnt:
 	.word	0x10100
 
 eepromselect:
-	.word	0xA240
-
-stage2:
-	mov		r1, #0xf80
-	str		r1, [r4]
-	str		r1, [r4,#0x400]		@ engine B palette
-
-forever:
-	b	forever
+	.word	0xA040
 
 	.pool
+
+waitsync:
+	ldrh	r0, [r3]
+	and		r0, r0, #0x000f
+	cmp		r0, r2
+	bne		waitsync
+	bx		lr
+
+
 	.space (_start + 0x378) - .
 
 
@@ -178,6 +177,107 @@ forever:
 	.hword	2
 	.hword	0x0202
 
+
+stage2:
+	ldr		r0, =0x00002078			@ disable TCM and protection unit
+	mcr		p15, 0, r0, c1, c0
+
+	@ Disable caches
+	mov		r0, #0
+	mcr		p15, 0, r0, c7, c5, 0		@ Instruction cache
+	mcr		p15, 0, r0, c7, c6, 0		@ Data cache
+
+	@ Wait for write buffer to empty
+	mcr		p15, 0, r0, c7, c10, 4
+
+	mov		r1, #0x3e0
+	str		r1, [r4]
+
+	mov		r0, #0x40000
+	add		r0, #0xC
+	str		r0, [r12, #0x188]
+
+	add		r3, r12, #0x180     @ r3 = 4000180
+
+	ldr		r5,=0x2fffc24
+
+	mov		r2,#4
+	strh	r2,[r5,#4]
+	bl		wait_dsi7
+	mov		r2,#3
+	strh	r2,[r5,#4]
+	bl		wait_dsi7
+
+	mov		r2, #0xffffffff
+	str		r2, [r4,#0x400]		@ engine B palette
+
+	mov		r2,#1
+	bl		waitsync
+
+	ldr		r2, =0x7fe0
+	str		r2, [r4,#0x400]		@ engine B palette
+
+	adr		r5,arm7_start
+	adr		r7,arm7_end
+	ldr		r6,=0x2380000
+copyloop:
+	ldr		r0,[r5],#4
+	str		r0,[r6],#4
+	cmp		r5,r7
+	bne		copyloop
+
+	mov		r0, #0x100
+	strh	r0, [r3]
+
+	mov		r2,#0
+	bl		waitsync
+
+	mov		r2, #0x7c00
+	str		r2, [r4,#0x400]		@ engine B palette
+
+	mov		r0, #0
+	strh	r0, [r3]
+
+	mov		r2,#5
+	bl		waitsync
+
+	str		r1, [r4,#0x400]		@ engine B palette
+
+forever:
+	b	forever
+
+wait_dsi7:
+	ldrh	r0,[r5,#2]
+.wait7:
+	ldrh	r6,[r5,#2]
+	cmp		r6,r0
+	beq		.wait7
+
+	ldrh	r0,[r5]
+	add		r0,r0,#1
+	strh	r0,[r5]
+	bx		lr
+
+arm7_start:
+	mov		r12, #REG_BASE
+	str		r12, [r12, #0x208]	@ IME = 0;
+	add		r3, r12, #0x180
+	mov		r0,#0x0500
+	strh	r0,[r3]
+	ldr		r0,loop
+
+@ running this loop in main RAM freezes the ARM9
+@ copy to iwram and run there.
+
+	mov		r1,#0x3800000
+	str		r0,[r1]
+	bx		r1
+loop:
+	b	loop
+
+arm7_end:
+
+	.pool
 
 	.space (_start + 0xBD0) - .
 
