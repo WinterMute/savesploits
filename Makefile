@@ -1,13 +1,5 @@
 export	PATH	:=	$(DEVKITARM)/bin:$(PATH)
 
-export	CC		:=	gcc
-
-UNAME	:=	$(shell uname -s)
-
-ifneq (,$(findstring MINGW,$(UNAME)))
-	EXEEXT		:=	.exe
-endif
-
 COUNTRY	:=	USA
 
 ifeq ($(strip $(COUNTRY)),USA)
@@ -29,8 +21,8 @@ $(TARGET): cookhack.elf cooksum$(EXEEXT)
 
 cooksum$(EXEEXT):	cooksum.c
 
-cookhack.elf:	cookhack.s overflow.bin
+cookhack.elf:	cookhack.s overflow.bin Makefile
 	arm-eabi-gcc -x assembler-with-cpp -D$(COUNTRY) -nostartfiles -nostdlib $< -o $@
 
 clean:
-	rm -f $(TARGET) *.sav cookhack.elf cooksum$(EXEEXT) cookhack.o
+	rm -f VCK*.sav cookhack.elf cooksum$(EXEEXT)
