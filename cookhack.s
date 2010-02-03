@@ -70,7 +70,6 @@ _start:
 	ldr	r0, eepromselect
 	strh	r0,[r11]
 
-
 	mov	r0,#03
 	strb	r0,[r11,#0x02]
 	bl	eepromwait
@@ -91,7 +90,7 @@ readeeprom:
 	strb	r0,[r11,#0x02]
 	
 	bl	eepromwait
-	ldrb	r0,[r11,#02]
+	ldrb	r0,[r11,#0x02]
 	strb	r0,[r1],#1
 	cmp	r1,r2
 	bne	readeeprom
@@ -167,6 +166,11 @@ stage2:
 
 	ldr	r5,=0x2fffc24
 
+	ldr	r0,=0x4004008
+	ldr	r0,[r0]
+	ands	r0,r0,#0x8000
+	beq	notDSi
+
 	mov	r2, #4
 	strh	r2, [r5,#4]
 	bl	wait_dsi7
@@ -174,6 +178,7 @@ stage2:
 	strh	r2, [r5,#4]
 	bl	wait_dsi7
 
+notDSi:
 	mov	r2, #1
 	bl	waitsync
 
@@ -202,7 +207,6 @@ copyloop:
 	bl	waitsync
 
 	str	r1, [r4,#0x400]		@ engine B palette
-
 
 forever:
 	b	forever
