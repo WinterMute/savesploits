@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 		startsum = 0xb4a9;
 	} else if ( country == 0x45) {
 		startsum = 0xb4ba;
-	} else if ( country == 0x00) {
+	} else if ( country == 0x53) {
 		startsum = 0xb4ac;
 	}
 
