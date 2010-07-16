@@ -1,6 +1,6 @@
 export	PATH	:=	$(DEVKITARM)/bin:$(PATH)
 
-COUNTRY	:=	USA
+COUNTRY	:=	UK
 
 ifeq ($(strip $(COUNTRY)),USA)
 ID:=E
@@ -10,6 +10,11 @@ ifeq ($(strip $(COUNTRY)),UK)
 ID:=V
 endif
 
+ifeq ($(strip $(COUNTRY)),ES)
+ID:=S
+endif
+
+#TARGET	:=	~/.config/desmume/dump_VCK$(ID).dsv
 TARGET	:=	VCK$(ID).sav
 
 $(CODE).sav:	$(TARGET)

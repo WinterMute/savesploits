@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 
 	struct saveSlotHeader *slotHeader = (struct saveSlotHeader *)buffer;
 
-	if (slotHeader->id != 0x56434B56 && slotHeader->id != 0x56434B45) {
+	if ( (slotHeader->id >> 8)!= 0x56434B ) {
 		printf("Not cooking coach save file!\n");
 		exit(1);
 	}
@@ -59,10 +59,14 @@ int main(int argc, char *argv[]) {
 	int slot=0;
 	unsigned short currentsum,sum,startsum;
 	
-	if ( slotHeader->id == 0x56434B56) {
+	int country = slotHeader->id & 0xff;
+	
+	if ( country == 0x56) {
 		startsum = 0xb4a9;
-	} else {
+	} else if ( country == 0x45) {
 		startsum = 0xb4ba;
+	} else if ( country == 0x00) {
+		startsum = 0xb4ac;
 	}
 
 	int slotOffset[] = {
