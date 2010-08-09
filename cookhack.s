@@ -19,18 +19,24 @@
 	.global _start
 
 #if defined(USA)
+
 #define CODE 0x56434B45
 #define JUMP 0x02179AB8
-#endif
 
-#if defined(UK)
+#elif defined(UK)
+
 #define CODE 0x56434B56
 #define JUMP 0x02179C98
-#endif
 
-#if defined(ES)
+#elif defined(ES)
+
 #define CODE 0x56434B53
 #define JUMP 0x02179C94
+
+#else
+
+#error "Currently unrecognised country"
+
 #endif
 
 #define	REG_BASE	0x04000000
