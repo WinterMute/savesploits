@@ -28,6 +28,11 @@
 #define JUMP 0x02179C98
 #endif
 
+#if defined(ES)
+#define CODE 0x56434B53
+#define JUMP 0x02179C94
+#endif
+
 #define	REG_BASE	0x04000000
 
 _start:
@@ -36,9 +41,15 @@ _start:
 	.hword	0x0203
 
 	.incbin "overflow.bin"
+#if !defined(ES)
+	.byte	0x20
+	.word	0x20202020, 0x20202020
+#endif
 	.word	0x55555555
 	.word	JUMP
 	.word	0x00414141
+
+	.align 2
 
 	mov	r12, #REG_BASE
 	str	r12, [r12, #0x208]		@ IME = 0;
