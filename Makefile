@@ -1,6 +1,6 @@
 export	PATH	:=	$(DEVKITARM)/bin:$(PATH)
 
-COUNTRY	:=	UK
+COUNTRY	:=	USA
 
 ifeq ($(strip $(COUNTRY)),USA)
 ID:=E
