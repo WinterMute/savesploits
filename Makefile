@@ -14,7 +14,11 @@ ifeq ($(strip $(COUNTRY)),ES)
 ID:=S
 endif
 
-#TARGET	:=	~/.config/desmume/dump_VCK$(ID).dsv
+ifeq ($(strip $(COUNTRY)),FR)
+ID:=F
+endif
+
+#TARGET	:=	~/.config/desmume/VCK$(ID).dsv
 TARGET	:=	VCK$(ID).sav
 
 $(CODE).sav:	$(TARGET)

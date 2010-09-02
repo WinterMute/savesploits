@@ -63,10 +63,14 @@ int main(int argc, char *argv[]) {
 	
 	if ( country == 0x56) {
 		startsum = 0xb4a9;
+	} else if ( country == 0x46) {
+		startsum = 0xb4b9;
 	} else if ( country == 0x45) {
 		startsum = 0xb4ba;
 	} else if ( country == 0x53) {
 		startsum = 0xb4ac;
+	} else if ( country == 0x00) {
+		startsum = 0xb400;
 	}
 
 	int slotOffset[] = {

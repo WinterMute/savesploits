@@ -33,6 +33,11 @@
 #define CODE 0x56434B53
 #define JUMP 0x02179C94
 
+#elif defined(FR)
+
+#define CODE 0x56434B46
+#define JUMP 0x02179BA0
+
 #else
 
 #error "Currently unrecognised country"
@@ -51,10 +56,17 @@ _start:
 	.byte	0x20
 	.word	0x20202020, 0x20202020
 #endif
+
+#if defined(FR)
+	.hword	0x5555
+	.word	JUMP
+	.word	0x00414141
+	.hword	0x4141
+#else
 	.word	0x55555555
 	.word	JUMP
 	.word	0x00414141
-
+#endif
 	.align 2
 
 	mov	r12, #REG_BASE
