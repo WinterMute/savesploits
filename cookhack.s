@@ -38,6 +38,11 @@
 #define CODE 0x56434B46
 #define JUMP 0x02179BA0
 
+#elif defined(ITA)
+
+#define CODE 0x56434B49
+#define JUMP 0x02179c40
+
 #else
 
 #error "Currently unrecognised country"
@@ -57,8 +62,11 @@ _start:
 	.word	0x20202020, 0x20202020
 #endif
 
-#if defined(FR)
+#if defined(FR) || defined(ITA)
 	.hword	0x5555
+#if defined(ITA)
+	.word	0x55555555
+#endif
 	.word	JUMP
 	.word	0x00414141
 	.hword	0x4141

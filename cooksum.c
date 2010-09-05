@@ -60,8 +60,9 @@ int main(int argc, char *argv[]) {
 	unsigned short currentsum,sum,startsum;
 	
 	int country = slotHeader->id & 0xff;
-	
-	if ( country == 0x56) {
+	if (country == 0x49) {
+		startsum = 0xb4b6;
+	} else if ( country == 0x56) {
 		startsum = 0xb4a9;
 	} else if ( country == 0x46) {
 		startsum = 0xb4b9;
@@ -79,7 +80,7 @@ int main(int argc, char *argv[]) {
 		0xBD0,
 		0xF04,
 		0x1238,
-		0x2000
+		0x1F77
 	};
 
 	for(slot=0;slot<5;slot++) {

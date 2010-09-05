@@ -18,6 +18,10 @@ ifeq ($(strip $(COUNTRY)),FR)
 ID:=F
 endif
 
+ifeq ($(strip $(COUNTRY)),ITA)
+ID:=I
+endif
+
 #TARGET	:=	~/.config/desmume/VCK$(ID).dsv
 TARGET	:=	VCK$(ID).sav
 
