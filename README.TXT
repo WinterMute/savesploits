@@ -4,7 +4,7 @@ This little project allows you to compile assembly straight into a
 Cooking Coach save game file. This file can then be written to the game
 card with something like eepinator from a normal DS.
 
-The current assembly just paints the screens read, reads the save file from
+The current assembly just paints the screens red, reads the save file from
 eeprom to RAM then jumps into that where it paints the screen green.
 
 If you find anything interesting then let us know in #dsdev on irc.blitzed.org
@@ -17,6 +17,6 @@ Have fun,
 
 Dave (WinterMute)
 
-http://www.devkitpro.org
+http://devkitpro.org
 http://davejmurphy.com
 http://twitter.com/davejmurphy
