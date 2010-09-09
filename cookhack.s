@@ -43,6 +43,11 @@
 #define CODE 0x56434B49
 #define JUMP 0x02179c40
 
+#elif defined(GER)
+
+#define CODE 0x56434B44
+#define JUMP 0x02179C60
+
 #else
 
 #error "Currently unrecognised country"
@@ -70,6 +75,9 @@ _start:
 	.word	JUMP
 	.word	0x00414141
 	.hword	0x4141
+#elif defined(GER)
+	.byte	0x55
+	.word	JUMP
 #else
 	.word	0x55555555
 	.word	JUMP
