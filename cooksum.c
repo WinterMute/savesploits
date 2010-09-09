@@ -60,19 +60,8 @@ int main(int argc, char *argv[]) {
 	unsigned short currentsum,sum,startsum;
 	
 	int country = slotHeader->id & 0xff;
-	if (country == 0x49) {
-		startsum = 0xb4b6;
-	} else if ( country == 0x56) {
-		startsum = 0xb4a9;
-	} else if ( country == 0x46) {
-		startsum = 0xb4b9;
-	} else if ( country == 0x45) {
-		startsum = 0xb4ba;
-	} else if ( country == 0x53) {
-		startsum = 0xb4ac;
-	} else if ( country == 0x00) {
-		startsum = 0xb400;
-	}
+
+	startsum = 0xb4ff - country;
 
 	int slotOffset[] = {
 		0,
