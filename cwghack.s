@@ -24,6 +24,10 @@
 #define CODE 0x800354
 #endif
 
+#if defined(FR)
+#define CODE 0x800355
+#endif
+
 #define	REG_BASE	0x04000000
 
 	.global	_start
@@ -39,8 +43,6 @@ _start:
 	.word	0x01010101, 0xAAAAAAAA, 0x02EB4E18, 0xAAAAAAAA
 	.word	0xAAAAAAAA, 0xAAAAAAAA, 0xAAAAAAAA, 0xAAAAAAAA
 	.word	0xAAAAAAAA, 0xAAAAAAAA, 0xAAAAAAAA, 0xAAAAAAAA
-	
-	
 	
 	.space	(_start + 0x0f38) - .
 

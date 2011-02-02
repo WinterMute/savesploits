@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
 	
 	fread(buffer, sizeof(buffer), 1, inputsave);
 
-	if ( buffer[0].id != 0x800354 && buffer[0].id != 0x400810) {
+	if ( buffer[0].id != 0x800354 && buffer[0].id != 0x400810 && buffer[0].id != 0x800355) {
 		printf("Not classic word games save file!\n");
 		fclose(inputsave);
 		exit(1);
@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
 	uint16_t startsum;
 	
 	if (buffer[0].id == 0x800354) startsum = 0xfcab;
+	if (buffer[0].id == 0x800355) startsum = 0xfcaa;
 	if (buffer[0].id == 0x400810) startsum = 0xf7ef;
 	
 	int slot;
