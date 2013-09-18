@@ -1,6 +1,14 @@
-export	PATH	:=	$(DEVKITARM)/bin:$(PATH)
+#---------------------------------------------------------------------------------
+# path to tools
+#---------------------------------------------------------------------------------
+export PATH	:=	$(DEVKITARM)/bin:$(PATH)
 
-COUNTRY	:=	USA
+#---------------------------------------------------------------------------------
+# the prefix on the compiler executables
+#---------------------------------------------------------------------------------
+PREFIX		:=	arm-none-eabi-
+
+COUNTRY	:=	UK
 
 ifeq ($(strip $(COUNTRY)),USA)
 ID:=E
@@ -33,13 +41,14 @@ $(CODE).sav:	$(TARGET)
 	cp	$< $@
 
 $(TARGET): cookhack.elf cooksum$(EXEEXT)
-	arm-eabi-objcopy -O binary cookhack.elf $@
+	$(PREFIX)objcopy -O binary cookhack.elf $@
 	./cooksum $@
 
 cooksum$(EXEEXT):	cooksum.c
 
 cookhack.elf:	cookhack.s overflow.bin Makefile
-	arm-eabi-gcc -x assembler-with-cpp -D$(COUNTRY) -nostartfiles -nostdlib $< -o $@
+	$(PREFIX)gcc -x assembler-with-cpp -D$(COUNTRY) -nostartfiles -nostdlib $< -o $@
 
 clean:
 	rm -f VCK*.sav cookhack.elf cooksum$(EXEEXT)
+
