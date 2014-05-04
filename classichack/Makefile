@@ -1,12 +1,16 @@
-
 export	PATH	:=	$(DEVKITARM)/bin:$(PATH)
 export	CC		:=	gcc
 
+#---------------------------------------------------------------------------------
+# the prefix on the compiler executables
+#---------------------------------------------------------------------------------
+PREFIX		:=	arm-none-eabi-
+
 UNAME	:=	$(shell uname -s)
 
-ifneq (,$(findstring MINGW,$(UNAME)))
-	EXEEXT		:=	.exe
-endif
+#ifneq (,$(findstring MINGW,$(UNAME)))
+#	EXEEXT		:=	.exe
+#endif
 
 COUNTRY	:=	FR
 
@@ -26,13 +30,13 @@ TARGET	:=	VCW$(ID).sav
 
 
 $(TARGET):	cwghack.elf cwgsum$(EXEEXT)
-	arm-eabi-objcopy -O binary $< $@
+	$(PREFIX)objcopy -O binary $< $@
 	./cwgsum $@
 
 cwgsum$(EXEEXT):	cwgsum.c
 
 cwghack.elf:	cwghack.s
-	arm-eabi-gcc -Ttext=0 -x assembler-with-cpp -nostartfiles -nostdlib -D$(COUNTRY) $< -o $@
+	$(PREFIX)gcc -Ttext=0 -x assembler-with-cpp -nostartfiles -nostdlib -D$(COUNTRY) $< -o $@
 
 clean:
 	rm -f cwgsum$(EXEEXT) cwghack.elf cwghack.o cwghack.sav
