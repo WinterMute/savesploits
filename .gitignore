@@ -1,5 +1,4 @@
 *.sav
 *.dsv
-cooksum
-cookhack.elf
-
+*.elf
+*.exe
